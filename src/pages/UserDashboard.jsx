@@ -23,7 +23,15 @@ const UserDashboard = () => {
             })
             .catch((error) => console.log(error));
 
-    }, []);
+    }, [isAuthenticated, navigate]);
+
+    const filterByPriority = (priority) => {
+        return tasks.filter((task) => task.priority === priority);
+    }
+    const filterByStatus = (status) => {
+        return tasks.filter((task) => task.status === status);
+    }
+
 
     return (
         <section className="max-w-7xl mx-auto" >
@@ -35,23 +43,44 @@ const UserDashboard = () => {
                     <SideBar />
                 </div>
                 <div className="main-content max-4xl ml-10">
-                    {
-                        tasks.length > 0 && <div className="top mb-4 items-center">
-                            <h1 className="text-3xl font-semibold mb-4">Task Board</h1>
-                            <select name="priority" id="priority">
-                                <option value="all">All</option>
-                                <option value="high">High</option>
-                                <option value="medium">Medium</option>
-                                <option value="low">Low</option>
-                            </select>
-                            <select name="status" id="status">
-                                <option value="all">All</option>
-                                <option value="completed">Completed</option>
-                                <option value="pending">Pending</option>
-                            </select>
+                    <div className="top mb-4 items-center">
+                        <h1 className="text-3xl font-semibold mb-4">Task Board</h1>
+                        <select name="priority" id="priority"
+                            onChange={(e) => {
+                                if (e.target.value === "all") {
+                                    ApiService.getTasks()
+                                        .then((data) => {
+                                            setTasks(data);
+                                        })
+                                        .catch((error) => console.log(error));
+                                } else {
+                                    setTasks(filterByPriority(e.target.value));
+                                }
+                            }
+                            }>
+                            <option value="all">All</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                        <select name="status" id="status"
+                            onChange={(e) => {
+                                if (e.target.value === "all") {
+                                    ApiService.getTasks()
+                                        .then((data) => {
+                                            setTasks(data);
+                                        })
+                                        .catch((error) => console.log(error));
+                                } else {
+                                    setTasks(filterByStatus(e.target.value));
+                                }
+                            }}>
+                            <option value="all">All</option>
+                            <option value="completed">Completed</option>
+                            <option value="pending">Pending</option>
+                        </select>
 
-                        </div>
-                    }
+                    </div>
 
                     {/* end top */}
 

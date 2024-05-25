@@ -6,7 +6,7 @@ const Empty = () => {
             </svg>
 
             <h1 className="text-lg text-gray-500">
-                Wow Such, Empty. Wait to be assigned a task soon
+                Wow Such, Empty. 
             </h1>
         </section>
     )

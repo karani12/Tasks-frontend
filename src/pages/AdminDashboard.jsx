@@ -13,16 +13,24 @@ const AdminDashBoard = () => {
     const [tasks, setTasks] = useState(null);
     const { user } = useAuth()
     const navigate = useNavigate()
+    const filterByPriority = (priority) => {
+        return tasks.filter((task) => task.priority === priority);
+    }
+    const filterByStatus = (status) => {
+        return tasks.filter((task) => task.status === status);
+    }
+
     useEffect(() => {
-        if(user){
-        ApiService.getAllTasks()
-            .then((data) => { setTasks(data); })
+        if (user) {
+            ApiService.getAllTasks()
+                .then((data) => { setTasks(data); })
         }
 
         console.log(user)
         if (user && user.role != "admin") {
             navigate("/dashboard")
-        }}, [user, navigate]
+        }
+    }, [user, navigate]
     )
 
 
@@ -44,7 +52,45 @@ const AdminDashBoard = () => {
                         <CreateTask />
 
                     </div>
-                    <h1 className="text-3xl font-semibold mb-4">Task Board</h1>
+                    <div className="top">
+
+                        <h1 className="text-3xl font-semibold mb-4">Task Board</h1>
+                        <select name="priority" id="priority"
+                            onChange={(e) => {
+                                if (e.target.value === "all") {
+                                    ApiService.getAllTasks()
+                                        .then((data) => {
+                                            setTasks(data);
+                                        })
+                                        .catch((error) => console.log(error));
+                                } else {
+                                    setTasks(filterByPriority(e.target.value));
+                                }
+                            }
+                            }>
+                            <option value="all">All</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                        <select name="status" id="status"
+                            onChange={(e) => {
+                                if (e.target.value === "all") {
+                                    ApiService.getAllTasks()
+                                        .then((data) => {
+                                            setTasks(data);
+                                        })
+                                        .catch((error) => console.log(error));
+                                } else {
+                                    setTasks(filterByStatus(e.target.value));
+                                }
+                            }}>
+                            <option value="all">All</option>
+                            <option value="completed">Completed</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+
                     <div className="cards  flex flex-wrap min-w-fit gap-2">
                         {
                             tasks && tasks.map((task) => (
