@@ -7,7 +7,9 @@ const TaskCard = ({ task }) => {
                     <h1 className="text-xl">{task.title}</h1>
                     <span className={`
                     badge rounded-md
-                    ${task.priority === "High" ? "bg-red-100 text-red-600" : ""}
+                    ${ task.priority === "low" ? "bg-green-100 text-green-600" : ""}
+                    ${ task.priority === "medium" ? "bg-yellow-100 text-yellow-600" : ""}
+                    ${task.priority === "high" ? "bg-red-100 text-red-600" : ""}
                     `}>{task.priority}</span>
                 </div>
             </div>
