@@ -1,4 +1,6 @@
 import { useState } from "react";
+import ApiService from "../services/api";
+import { useEffect } from "react";
 
 const CreateTask = () => {
     const [title, setTitle] = useState("");
@@ -6,6 +8,15 @@ const CreateTask = () => {
     const [dueDate, setDueDate] = useState("");
     const [priority, setPriority] = useState("");
     const [assignedUserId, setassignedUserId] = useState("");
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        ApiService.getAllUsers()
+            .then((data) => {
+                setUsers(data);
+            })
+            .catch((error) => console.log(error));
+    }
+        , [])
 
 
 
@@ -15,7 +26,26 @@ const CreateTask = () => {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        console.log(title, description, dueDate, priority, assignedUserId);
+                        ApiService.createTask({
+                            title,
+                            description,
+                            dueDate,
+                            priority,
+                            status: "pending",
+                            assignedUserId,
+                            assignedById: 1
+                        }).then((data) => {
+                            // set state
+                            setTitle("");
+                            setDescription("");
+                            setDueDate("");
+                            setPriority("");
+                            setassignedUserId("");
+                    
+                            console.log(data)
+                        }).catch((error) => console.log(error))
+
+
                     }}
 
                     className="space-y-1">
@@ -81,9 +111,11 @@ const CreateTask = () => {
                             name="assigned"
                             id="assigned"
                             className="select select-bordered">
-                            <option value="1">John Doe</option>
-                            <option value="2">Jane Doe</option>
-                            <option value="3">John Smith</option>
+                            {
+                                users && users.map((user) => (
+                                    <option key={user.id} value={user.id}>{user.username}</option>
+                                ))
+                            }
                         </select>
                     </div>
                     <div type="submit" className="form-control">

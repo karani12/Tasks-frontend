@@ -5,14 +5,16 @@ import Home from "./pages/Home"
 import { AuthProvider, useAuth } from "./context/AuthContext"
 import UserDashboard from './pages/UserDashboard';
 import AdminDashBoard from './pages/AdminDashboard';
+import { useEffect } from 'react';
 
 const PrivateRoute = () => {
   const { isAuthenticated, isLoading, IsAuthenticatedHandler,accessToken, getUser } = useAuth();
-  if(!isAuthenticated && accessToken){
-    getUser();
-    IsAuthenticatedHandler(true);
-  }
-
+  useEffect(() => {
+    if (!isAuthenticated && accessToken) {
+      getUser();
+      IsAuthenticatedHandler(true);
+    }
+  }, [isAuthenticated, accessToken, getUser, IsAuthenticatedHandler]);
   if (isLoading) return <div>Loading...</div>;
 
   if (!accessToken) return <Navigate to="/login" />;
