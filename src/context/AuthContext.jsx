@@ -2,14 +2,15 @@ import { useState } from "react";
 import { createContext } from "react";
 import ApiService from "../services/api";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
+    const naviagate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loadingAuth, setLoadingAuth] = useState(true);
     const [user, setUser] = useState(null);
 
     const login = async ({ username, password }) => {
@@ -20,8 +21,18 @@ export const AuthProvider = ({ children }) => {
         }).then((res) => {
             setIsAuthenticated(true);
             setLoading(false);
-            setLoadingAuth(false);
             setUser(res.user);
+            console.log(res);
+            
+            if(res.error){
+                return res;
+            }
+            if (res.user.role === "admin") {
+                naviagate("/admin");
+            }
+            else {
+                naviagate("/dashboard");
+            }
             return res;
         });
     };
@@ -38,7 +49,28 @@ export const AuthProvider = ({ children }) => {
             passwordConfirm,
         }).then((res) => {
             setLoading(false);
+            naviagate("/login");
             return res;
+        });
+    };
+    // get user
+    const getUser = async () => {
+        setLoading(true);
+        return await ApiService.getUser().then((res) => {
+            console.log(res);
+            setUser(res.user);
+            if (res.user.role === "admin") {
+                naviagate("/admin");
+            }
+            else {
+                naviagate("/dashboard");
+            }
+            setLoading(false);
+            return res;
+        }).catch((error) => {
+            console.log(error);
+            setLoading(false);
+            naviagate("/login");
         });
     };
 
@@ -46,22 +78,19 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(value)
     }
 
-    const SetLoadingAuthHandler = (value) => {
-        setLoadingAuth(value)
-    }
+
 
     return (
         <AuthContext.Provider
             value={{
                 loading,
                 isAuthenticated,
-                loadingAuth,
                 accessToken,
                 login,
                 register,
                 user,
                 IsAuthenticatedHandler,
-                SetLoadingAuthHandler
+                getUser,
             }}
         >
             {children}

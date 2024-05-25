@@ -8,15 +8,14 @@ async function login({ username, password }) {
       "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
-      username,
-      password,
+      username: username,
+      password: password,
     }),
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data.data.accessToken);
-      if (data.data.accessToken) {
-        localStorage.setItem("access_token", data.data.accessToken);
+      if (data.accessToken) {
+        localStorage.setItem("accessToken", data.accessToken);
       }
       return data;
     })
@@ -30,10 +29,10 @@ function register({ username, email, passordConfirm, password }) {
       "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
-      username,
-      email,
-      passordConfirm,
-      password,
+      üsername: username,
+      email: email,
+      passwordConfirm: passordConfirm,
+      password: password,
     }),
   })
     .then((response) => response.json())
@@ -57,7 +56,10 @@ function getUser() {
       "Access-Control-Allow-Origin": "*",
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+      console.log(response);
+      return response.json();
+    })
     .then((data) => {
       return data;
     })
@@ -94,13 +96,13 @@ function createTask({
       "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
-      title,
-      description,
-      dueDate,
-      priority,
-      status,
-      assignedUserId,
-      assignedById,
+      title: title,
+      description: description,
+      dueDate: dueDate,
+      priority: priority,
+      status: status,
+      assignedUserId: assignedUserId,
+      assignedById: assignedById,
     }),
   })
     .then((response) => response.json())

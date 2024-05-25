@@ -1,19 +1,31 @@
 import AuthLayout from './layout/AuthLayout';
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 const Login = () => {
+    const { login } = useAuth()
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
 
 
     return (
         <AuthLayout>
             <section className="w-1/3" >
-            <h1 className='text-center mb-3 text-xl'>Welcome Back</h1>
-
+                <h1 className='text-center mb-3 text-xl'>Welcome Back</h1>
+                {error && <div className="alert alert-error mb-3">{error}</div>}
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        console.log(username, password);
+                        login({
+                            username, password
+                        }).then((res) => {
+                            if (res.error) {
+                                setError(res.error)
+                                setTimeout(() => {
+                                    setError(null)
+                                }, 5000);
+                            }
+                        })
                     }}
                     className="space-y-4">
                     <label className="input input-bordered  flex items-center gap-2">
