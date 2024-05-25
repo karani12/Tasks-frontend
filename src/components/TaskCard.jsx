@@ -1,4 +1,6 @@
+
 /* eslint-disable react/prop-types */
+import ApiService from "../services/api";
 const TaskCard = ({ task }) => {
     return (
         <div className="card border p-3 space-y-3 min-w-72">
@@ -25,9 +27,12 @@ const TaskCard = ({ task }) => {
                     }</span>
                 </div>
                 <div className="footer-actions">
-                    {/* update status */}
                     <select
-                        onChange={(e) => console.log(e.target.value + " " + task.title)}
+                        onChange={() => {
+                            ApiService.markTaskComplete(task.id);
+
+                        }}
+                        value={task.status}
                         name="status"
                         id="status"
                     >

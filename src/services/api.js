@@ -21,25 +21,23 @@ async function login({ username, password }) {
     })
     .catch((error) => error);
 }
-function register({ username, email, passordConfirm, password }) {
-  return fetch(`${URL}/auth/signup`, {
+function register({ username, email, passwordConfirm, password }) {
+  return fetch(`${URL}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
-      üsername: username,
+      username: username,
       email: email,
-      passwordConfirm: passordConfirm,
+      passwordConfirm: passwordConfirm,
       password: password,
     }),
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === 200) {
-        return data;
-      }
+      return data;
     })
     .catch((error) => error);
 }
