@@ -54,6 +54,7 @@ function getUser() {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      "x-auth-token": localStorage.getItem("accessToken") || "",
     },
   })
     .then((response) => {
@@ -72,6 +73,7 @@ function getTasks() {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      "x-auth-token": localStorage.getItem("accessToken") || "",
     },
   })
     .then((response) => response.json())
@@ -94,11 +96,12 @@ function createTask({
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      "x-auth-token": localStorage.getItem("accessToken") || "",
     },
     body: JSON.stringify({
       title: title,
       description: description,
-      dueDate: dueDate,
+      dueDate: new Date(dueDate).toISOString(),
       priority: priority,
       status: status,
       assignedUserId: assignedUserId,
@@ -117,10 +120,28 @@ function markTaskComplete(id) {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      "x-auth-token": localStorage.getItem("accessToken") || "",
     },
     body: JSON.stringify({
       status: "completed",
     }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => error);
+}
+
+// get all users
+function getAllUsers() {
+  return fetch(`${URL}/auth/users`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "x-auth-token": localStorage.getItem("accessToken") || "",
+    },
   })
     .then((response) => response.json())
     .then((data) => {
@@ -135,6 +156,7 @@ function getAllTasks() {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      "x-auth-token": localStorage.getItem("accessToken") || "",
     },
   })
     .then((response) => response.json())
@@ -152,4 +174,5 @@ export default {
   createTask,
   markTaskComplete,
   getAllTasks,
+  getAllUsers,
 };

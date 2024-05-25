@@ -8,7 +8,7 @@ const AuthContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
-    const naviagate = useNavigate();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState(null);
@@ -22,17 +22,10 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             setLoading(false);
             setUser(res.user);
-            console.log(res);
-            
             if(res.error){
                 return res;
             }
-            if (res.user.role === "admin") {
-                naviagate("/admin");
-            }
-            else {
-                naviagate("/dashboard");
-            }
+            navigate(res.user.role === "admin" ? "/admin" : "/dashboard");
             return res;
         });
     };
@@ -49,7 +42,7 @@ export const AuthProvider = ({ children }) => {
             passwordConfirm,
         }).then((res) => {
             setLoading(false);
-            naviagate("/login");
+            navigate("/login");
             return res;
         });
     };
@@ -58,19 +51,14 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
         return await ApiService.getUser().then((res) => {
             console.log(res);
-            setUser(res.user);
-            if (res.user.role === "admin") {
-                naviagate("/admin");
-            }
-            else {
-                naviagate("/dashboard");
-            }
+            setUser(res);
             setLoading(false);
+            navigate(res.role === "admin" ? "/admin" : "/dashboard");
             return res;
         }).catch((error) => {
             console.log(error);
             setLoading(false);
-            naviagate("/login");
+            navigate("/login");
         });
     };
 
