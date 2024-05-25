@@ -10,15 +10,15 @@ import { useState } from "react";
 
 
 const AdminDashBoard = () => {
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState(null);
     const { user } = useAuth()
     const navigate = useNavigate()
     useEffect(() => {
+        if(user){
         ApiService.getAllTasks()
-            .then((data) => {
-                setTasks(data);
-            }
-            )
+            .then((data) => { setTasks(data); })
+        }
+
         console.log(user)
         if (user && user.role != "admin") {
             navigate("/dashboard")

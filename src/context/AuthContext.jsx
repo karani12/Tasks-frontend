@@ -9,7 +9,7 @@ const AuthContext = createContext();
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState(null);
 
@@ -42,7 +42,9 @@ export const AuthProvider = ({ children }) => {
             passwordConfirm,
         }).then((res) => {
             setLoading(false);
-            navigate("/login");
+            if(!res.errors){
+                navigate("/login");
+            }
             return res;
         });
     };
@@ -50,16 +52,26 @@ export const AuthProvider = ({ children }) => {
     const getUser = async () => {
         setLoading(true);
         return await ApiService.getUser().then((res) => {
+            if(res.status === 401){
+                navigate("/login");
+            }
             console.log(res);
             setUser(res);
             setLoading(false);
             navigate(res.role === "admin" ? "/admin" : "/dashboard");
+
             return res;
         }).catch((error) => {
             console.log(error);
             setLoading(false);
             navigate("/login");
         });
+    };
+    const logout = () => {
+        localStorage.removeItem("accessToken");
+        setIsAuthenticated(false);
+        setUser(null);
+        navigate("/login");
     };
 
     const IsAuthenticatedHandler = (value) => {
@@ -79,6 +91,7 @@ export const AuthProvider = ({ children }) => {
                 user,
                 IsAuthenticatedHandler,
                 getUser,
+                logout,
             }}
         >
             {children}

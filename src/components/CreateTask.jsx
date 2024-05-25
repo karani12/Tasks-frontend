@@ -41,7 +41,6 @@ const CreateTask = () => {
                             setDueDate("");
                             setPriority("");
                             setassignedUserId("");
-                    
                             console.log(data)
                         }).catch((error) => console.log(error))
 
