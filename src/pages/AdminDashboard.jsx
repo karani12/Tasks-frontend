@@ -27,7 +27,7 @@ const AdminDashBoard = () => {
                         <TaskCard
                             task={{
                                 title: "Task 1",
-                                priority: "High",
+                                priority: "high",
                                 description: "This is a task",
                                 status: "Completed",
                                 date: "2021-09-01"
@@ -36,7 +36,7 @@ const AdminDashBoard = () => {
                         <TaskCard
                             task={{
                                 title: "Task 1",
-                                priority: "High",
+                                priority: "high",
                                 description: "This is a task",
                                 status: "Completed",
                                 date: "2021-09-01"
@@ -45,7 +45,7 @@ const AdminDashBoard = () => {
                         <TaskCard
                             task={{
                                 title: "Task 1",
-                                priority: "High",
+                                priority: "high",
                                 status: "Completed",
                                 description: "This is a task",
                                 date: "2021-09-01"
@@ -55,7 +55,7 @@ const AdminDashBoard = () => {
                             task={{
                                 title: "Task 1",
                                 status: "Completed",
-                                priority: "High",
+                                priority: "medium",
                                 description: "This is a task",
                                 date: "2021-09-01"
                             }}
@@ -64,7 +64,7 @@ const AdminDashBoard = () => {
                             task={{
                                 title: "Task 1",
                                 status: "Completed",
-                                priority: "High",
+                                priority: "low",
                                 description: "This is a task",
                                 date: "2021-09-01"
                             }}
@@ -73,7 +73,7 @@ const AdminDashBoard = () => {
                             task={{
                                 title: "Task 1",
                                 status: "Completed",
-                                priority: "High",
+                                priority: "high",
                                 description: "This is a task",
                                 date: "2021-09-01"
                             }}

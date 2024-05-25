@@ -1,32 +1,70 @@
+import { useState } from "react";
+
 const CreateTask = () => {
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [dueDate, setDueDate] = useState("");
+    const [priority, setPriority] = useState("");
+    const [assignedUserId, setassignedUserId] = useState("");
+
+
+
     return (
         <dialog id="create-task" className="modal">
             <div className="modal-box">
-                <form className="space-y-3">
-                    {/* title, description, dueDate,priority, assigned */}
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        console.log(title, description, dueDate, priority, assignedUserId);
+                    }}
+
+                    className="space-y-1">
                     <div className="form-control">
                         <label htmlFor="title" className="label">
                             Title
                         </label>
-                        <input type="text" id="title" className="input input-bordered" />
+                        <input
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            type="text"
+                            required
+                            id="title"
+                            className="input input-bordered" />
                     </div>
                     <div className="form-control">
                         <label htmlFor="description" className="label">
                             Description
                         </label>
-                        <textarea id="description" className="textarea textarea-bordered"></textarea>
+                        <textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            id="description"
+                            required
+                            className="textarea textarea-bordered"></textarea>
                     </div>
                     <div className="form-control">
                         <label htmlFor="dueDate" className="label">
                             Due Date
                         </label>
-                        <input type="date" id="dueDate" className="input input-bordered" />
+                        <input type="date"
+                            value={dueDate}
+                            onChange={(e) => setDueDate(e.target.value)}
+                            id="dueDate"
+                            required
+                            className="input input-bordered"
+                        />
                     </div>
                     <div className="form-control">
                         <label htmlFor="priority" className="label">
                             Priority
                         </label>
-                        <select name="priority" id="priority" className="select select-bordered">
+                        <select
+                            value={priority}
+                            onChange={(e) => setPriority(e.target.value)}
+                            name="priority"
+                            required
+                            id="priority"
+                            className="select select-bordered">
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
                             <option value="low">Low</option>
@@ -36,9 +74,19 @@ const CreateTask = () => {
                         <label htmlFor="assigned" className="label">
                             Assigned
                         </label>
-                        <input type="text" id="assigned" className="input input-bordered" />
+                        <select
+                            value={assignedUserId}
+                            onChange={(e) => setassignedUserId(e.target.value)}
+                            required
+                            name="assigned"
+                            id="assigned"
+                            className="select select-bordered">
+                            <option value="1">John Doe</option>
+                            <option value="2">Jane Doe</option>
+                            <option value="3">John Smith</option>
+                        </select>
                     </div>
-                    <div className="form-control">
+                    <div type="submit" className="form-control">
                         <button className="btn btn-primary">Create Task</button>
                     </div>
 
