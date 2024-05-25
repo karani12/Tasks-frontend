@@ -20,9 +20,12 @@ const TaskCard = ({ task }) => {
                 </div>
                 <div className="footer-actions">
                     {/* update status */}
-                    <select name="status" id="status">
+                    <select
+                    onChange={(e) => console.log(e.target.value + " " + task.title)} 
+                    name="status"
+                     id="status"
+                    >
                         <option value="pending">Pending</option>
-                        <option value="in-progress">In Progress</option>
                         <option value="completed">Completed</option>
                     </select>
                 </div>
