@@ -1,28 +1,43 @@
-import { createBrowserRouter } from "react-router-dom"
+import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from "react-router-dom";
 import Login from "./components/Auth/Login"
 import Register from "./components/Auth/Register"
 import Home from "./pages/Home"
-import { AuthProvider } from "./context/AuthContext"
-import { RouterProvider } from "react-router-dom"
+import { AuthProvider, useAuth } from "./context/AuthContext"
 import UserDashboard from './pages/UserDashboard';
 import AdminDashBoard from './pages/AdminDashboard';
 
+const PrivateRoute = () => {
+  const { isAuthenticated, isLoading, IsAuthenticatedHandler,accessToken, getUser } = useAuth();
+  if(!isAuthenticated && accessToken){
+    getUser();
+    IsAuthenticatedHandler(true);
+  }
 
-const router = createBrowserRouter([
-  { path: "/", Component: Home },
-  { path: "/dashboard", Component: UserDashboard },
-  { path: "/admin", Component: AdminDashBoard },
-  { path: "/login", Component: Login },
-  { path: "/register", Component: Register }
-])
+  if (isLoading) return <div>Loading...</div>;
+
+  if (!accessToken) return <Navigate to="/login" />;
+  return <Outlet />;
+};
+
+
 
 function App() {
-
   return (
     <>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <Router>
+        <AuthProvider>
+          <Routes>
+            <Route element={<PrivateRoute />} >
+              <Route path="/dashboard" element={<UserDashboard />} />
+              <Route path="/admin" element={<AdminDashBoard />} />
+            </Route>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </AuthProvider>
+      </Router>
+
 
 
     </>
