@@ -1,6 +1,7 @@
 import AuthLayout from './layout/AuthLayout';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 const Login = () => {
     const { login } = useAuth()
     const [username, setUsername] = useState("");
@@ -54,6 +55,7 @@ const Login = () => {
                         className="btn btn-primary">
                         Login
                     </button>
+                    <Link to="/register" className="text-center underline">Don&apos;t have an account? Register</Link>
                 </form>
             </section>
         </AuthLayout>
