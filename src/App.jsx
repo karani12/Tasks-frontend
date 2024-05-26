@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from "react-router-dom";
 import Login from "./components/Auth/Login"
 import Register from "./components/Auth/Register"
-import Home from "./pages/Home"
 import { AuthProvider, useAuth } from "./context/AuthContext"
 import UserDashboard from './pages/UserDashboard';
 import AdminDashBoard from './pages/AdminDashboard';
@@ -33,7 +32,7 @@ function App() {
               <Route path="/dashboard" element={<UserDashboard />} />
               <Route path="/admin" element={<AdminDashBoard />} />
             </Route>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
