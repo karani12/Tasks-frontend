@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     const getUser = async () => {
         setLoading(true);
         return await ApiService.getUser().then((res) => {
-            if(res.status === 401){
+            if(res.status !== 200){
                 navigate("/login");
             }
             console.log(res);
