@@ -5,7 +5,7 @@ The usage for the app is as follows:
 
 1. register your username with your actual email.
 2. Login as the admin user with the following credentials:
-    - username: `Jadon_Dickens`
+    - username: `Murphy.Funk38`
     - password: `password`
 3. Create a new task by clicking on the `Add Task` button.(Admin Dashboard)
 4. Assign the task to yourself.

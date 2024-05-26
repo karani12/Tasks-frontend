@@ -1,4 +1,4 @@
-const URL = "https://tasks-mqf6.onrender.com/api";
+const URL = "http://localhost:3000/api";
 
 async function login({ username, password }) {
   return await fetch(`${URL}/auth/login`, {
