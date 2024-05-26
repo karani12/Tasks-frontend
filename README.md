@@ -17,3 +17,15 @@ The usage for the app is as follows:
 The app is hosted on [Cloudflare](https://tasks-frontend-5d6.pages.dev/)
 
 > Note: Please follow the instructions to get the best experience from the app. It's not full proof at the moment.
+
+## Features
+- Admin Dashboard
+- User Dashboard
+- Create Task
+- Assign Task
+- Authentication
+    - Register
+    - Login
+    - Logout
+- Api Integration
+   
