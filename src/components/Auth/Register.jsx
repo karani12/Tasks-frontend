@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import AuthLayout from './layout/AuthLayout';
 import { useAuth } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -92,6 +93,7 @@ const Register = () => {
                         className="btn btn-primary">
                         Register
                     </button>
+                    <Link to='/login' className='text-center underline'>Already have an account? Login</Link>
                 </form>
             </section>
         </AuthLayout>
