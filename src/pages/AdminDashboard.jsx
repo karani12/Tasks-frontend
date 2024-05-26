@@ -24,7 +24,13 @@ const AdminDashBoard = () => {
     useEffect(() => {
         if (user) {
             ApiService.getAllTasks()
-                .then((data) => { setTasks(data); })
+            
+                .then((data) => { 
+                    if(data.error){
+                        navigate("/login");
+                    }
+                    setTasks(data);
+                 })
         }
 
         console.log(user)

@@ -19,6 +19,10 @@ const UserDashboard = () => {
         }
         ApiService.getTasks()
             .then((data) => {
+                console.log(data);
+                if(data.error){
+                    navigate("/login");
+                }
                 setTasks(data);
             })
             .catch((error) => console.log(error));
