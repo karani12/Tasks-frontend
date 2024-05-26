@@ -7,10 +7,11 @@ import { useAuth } from "../context/AuthContext";
 import ApiService from "../services/api";
 import { useEffect } from "react";
 import { useState } from "react";
+import Empty from "../components/Empty";
 
 
 const AdminDashBoard = () => {
-    const [tasks, setTasks] = useState(null);
+    const [tasks, setTasks] = useState([]);
     const { user } = useAuth()
     const navigate = useNavigate()
     const filterByPriority = (priority) => {
@@ -46,15 +47,16 @@ const AdminDashBoard = () => {
                 <div className="sidebar">
                     <SideBar />
                 </div>
-                <div className="main-content max-4xl mx-auto">
+                <div className="main-content max-4xl">
                     <div className="create-task">
                         <button className="btn btn-primary mb-3" onClick={() => document.getElementById('create-task').showModal()}>Create Task</button>
                         <CreateTask />
 
                     </div>
-                    <div className="top">
+                    <div className="top mb-4 items-center">
 
                         <h1 className="text-3xl font-semibold mb-4">Task Board</h1>
+
                         <select name="priority" id="priority"
                             onChange={(e) => {
                                 if (e.target.value === "all") {
@@ -91,12 +93,17 @@ const AdminDashBoard = () => {
                         </select>
                     </div>
 
-                    <div className="cards  flex flex-wrap min-w-fit gap-2">
+                    <div className="cards flex flex-wrap min-w-fit gap-2">
+                        {
+                            tasks.length === 0 && <Empty />
+                        }
+
                         {
                             tasks && tasks.map((task) => (
                                 <TaskCard task={task} key={task.id} />
                             ))
                         }
+
 
                     </div>
                 </div>
